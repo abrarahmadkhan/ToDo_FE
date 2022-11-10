@@ -1,5 +1,5 @@
-async function Access_Token(props) {
+async function AccessToken(props) {
   await sessionStorage.setItem("AccessToken", JSON.stringify(props)); 
 }
 
-export default Access_Token;
+export default AccessToken;

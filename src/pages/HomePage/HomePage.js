@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import * as React from "react";
 import ResponsiveAppBar from "../../components/Header/NewHeader";
-import BasicTable from "../../components/Table/table";
+import BasicTable from "../../components/Table/BasicTable";
 
 export default function HomePage() {
   //   const handleSubmit = (event) => {

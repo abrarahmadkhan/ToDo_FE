@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<SignIn />} exact />
         <Route element={<PrivateRoutes />} >
           <Route path="/home" element={<HomePage />} exact />
-          <Route exact path="/signup" element={<SignUp />}  />
+          <Route path="/signup" element={<SignUp />} exact />
           <Route path="/form" element={<JobSubmitForm />} exact />
         </Route>
       </Routes>

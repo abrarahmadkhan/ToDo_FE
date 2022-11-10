@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import Access_Token from "../../components/Auth/Access_Token";
+import AccessToken from "../../components/Auth/AccessToken";
 import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
@@ -56,7 +56,7 @@ export default function SignIn() {
     
     if (response.data.access_token !== undefined) {
       console.log("here in if");
-      Access_Token(response.data.access_token);
+      AccessToken(response.data.access_token);
       history('/home');
     } else {
       console.log("here in else");
