@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import Form from "../Pages/Form/Form";
 // import useHistory from "use-history";
 //import UpdateForm from "../Pages/Form/updateForm";
@@ -14,20 +14,12 @@ export default function EditButton(props) {
   const edited = () => {
     // <Form/>
     console.log(id);
-    history("/form", { id: id });
+    history(`/form/${id}`);
   };
 
   return (
-    <Link to={`/form/${id}`}>
-    <Button
-      variant="contained"
-      endIcon={<EditIcon />}
-      onClick={() => {
-        props.onClick(edited);
-      }}
-    >
+    <Button variant="contained" endIcon={<EditIcon />} onClick={edited}>
       Edit
     </Button>
-     </Link>
   );
 }

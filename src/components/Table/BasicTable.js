@@ -8,56 +8,31 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Grid, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
-// import EditButton from "../../../component/Edit";
-// import DButton from "../../../component/Delete";
-// import UserService from "../../../services/userService";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import EditButton from "../Button/EiditButton";
+import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
 
-export default function BasicTable(props) {
-
-  const [tableData, setTableData] = useState([]);
-  const navigate = useNavigate();
+export default function BasicTable() {
+  const [tableData, setTableData] = useState();
+  const [employeeId, setEmployeeId] = useState();
   async function getData() {
-    const allData= axios.get(`http://localhost:3000/employee/job/3`)
-    setTableData(allData);
+    const allData = await axios.get(`http://localhost:3000/employee/job/3`);
+    console.log('allData',allData);
+    setEmployeeId(allData.data[0].employee_id)
+    setTableData(allData.data[0].List);
   }
 
   useEffect(() => {
-    getData();
+   getData();
   }, []);
-
-  const dataDeleted = () => {
-    getData();
-  };
-
-  console.log(tableData );
-  // const tableData1=tableData.json()
-  // console.log("🚀 ~ file: BasicTable.js ~ line 36 ~ BasicTable ~ tableData1", tableData1)
-  // tableData.then((value) => {
-  //   console.log(value);
-  //   // expected output: 123
-  // });
-  
-  // const { foo, bar } = Promise.then(tableData => tableData.data);
-  // console.log("🚀 ~ file: BasicTable.js ~ line 38 ~ BasicTable ~ bar", bar)
-  // console.log(foo);
-  const edit = (id) => {
-    console.log(id);
-    navigate("/form", { state: { id: id } });
-  };
-function createData(name, id, Email, Phone){
-    return { id, name, Email, Phone };
+  console.log(employeeId);
+  console.log(tableData);
+  if (tableData !== undefined) {
+    console.log(tableData);
+  } else {
+    return;
   }
   
-  // const row = [
-  //   createData('id', 159, 6.0, 24, 4.0),
-  //   createData('name', 237, 9.0, 37, 4.3),
-  //   createData('Email', 262, 16.0, 24, 6.0),
-  //   createData('Phone', 305, 3.7, 67, 4.3),
-  // ];
   return (
     <TableContainer component={Paper}>
       <Grid container justifyContent="center">
@@ -65,34 +40,34 @@ function createData(name, id, Email, Phone){
           <TableHead>
             <TableRow>
               <TableCell align="left">List Id</TableCell>
-              <TableCell align="right">Job Title</TableCell>
-              <TableCell align="right">Job Description</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Date</TableCell>
+              <TableCell align="left">Job Title</TableCell>
+              <TableCell align="left">Job Description</TableCell>
+              <TableCell align="left">Status</TableCell>
+              <TableCell align="left">Date</TableCell>
               <TableCell align="right">Option</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData.map((row) => (
               <TableRow
-                key={row.employee_id}
+                key={row.list_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                <TableCell align="right">{row.List_Id}</TableCell>
+          <TableCell align="left">{row.list_id}</TableCell>
                 <TableCell component="th" scope="row">
-                  {row.job_Title}
+                  {row.Job_Title}
                 </TableCell>
-                <TableCell align="right">{row.job_Description}</TableCell>
-                <TableCell align="right">{row.status}</TableCell>
-                <TableCell align="right">{row.createData}</TableCell>
-                <TableCell>
-                  <Stack direction="row" spacing={1}>
-                    <EditButton onClick={() => edit(row.id)} id={row.id} />
-                    <DeleteButton onDelete={dataDeleted} id={row.id} />
+                <TableCell align="left">{row.Description}</TableCell>
+                <TableCell align="left">{row.Status}</TableCell>
+                <TableCell align="left">{row.create_at}</TableCell>
+                <TableCell >
+                  <Stack  direction='row-reverse' spacing={1}>
+                    <DeleteButton  id={row.list_id} />
+                    <EditButton  id={row.list_id} />
                   </Stack>
                 </TableCell>
-               </TableRow>
-            ))} 
+          </TableRow>
+          ))} 
           </TableBody>
         </Table>
       </Grid>

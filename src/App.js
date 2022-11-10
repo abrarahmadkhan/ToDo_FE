@@ -19,6 +19,7 @@ function App() {
           <Route path="/home" element={<HomePage />} exact />
           <Route path="/signup" element={<SignUp />} exact />
           <Route path="/form" element={<JobSubmitForm />} exact />
+          <Route path="/form/:id" element={<JobSubmitForm />} />
         </Route>
       </Routes>
     </BrowserRouter>
