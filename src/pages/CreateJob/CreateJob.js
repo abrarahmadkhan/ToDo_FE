@@ -12,34 +12,41 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import { useState } from "react";
 import jwt from "jwt-decode";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 export default function JobSubmitForm() {
   const [Job_Title, setJobTitle] = useState("");
+  console.log("🚀 ~ file: CreateJob.js ~ line 21 ~ JobSubmitForm ~ Job_Title", Job_Title)
   const [Description, setJobDescription] = useState("");
-  const [listId, setListId] = useState(null);
-  const Status = "New";
+  console.log("🚀 ~ file: CreateJob.js ~ line 23 ~ JobSubmitForm ~ Description", Description)
+  const [list_id, setListId] = useState(null);
+  const [Status, setStatus] = useState("New");
+  const history = useNavigate();
   const isAuth = window.sessionStorage.AccessToken;
   const user = jwt(isAuth);
-  console.log("🚀 ~ file: CreateJob.js ~ line 24 ~ JobSubmitForm ~ user", user);
   const employeeListId = user.userId;
   const param = useParams();
-  const list_Id = parseInt(param.id);
-  console.log("🚀 ~ file: CreateJob.js ~ line 29 ~ JobSubmitForm ~ list_Id", list_Id)
-  if (param === Object) {
-    setListId(list_Id);
+  const listId = parseInt(param.id);
+  if (isNaN(listId) !== true) {
+    if (list_id == null) {
+      setListId(listId);
+    }
   }
-  // async function getData() {
-  //   const allData = await axios.get(`http://localhost:3000/list/${listId}`);
-  //   console.log("allData", allData);
-  //   setJobTitle(allData.data[0]);
-  //   setJobDescription(allData.data[0]);
-  // }
-  console.log(
-    "🚀 ~ file: CreateJob.js ~ line 28 ~ JobSubmitForm ~ params",
-    param
-  );
+  useEffect(() => {
+    async function getData() {
+      if (list_id !== null) {
+        const allData = await axios.get(
+          `http://localhost:3000/list/${list_id}`
+        );
+        console.log("allData", allData.data.Description);
+        setJobTitle(allData.data.Job_Title);
+        setJobDescription(allData.data.Description);
+      }
+    }
+    getData();
+  }, [list_id]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -51,31 +58,27 @@ export default function JobSubmitForm() {
       Status: Status,
       EmployeeListId: employeeListId,
     });
-    if (listId == null) {
+    if (list_id == null) {
       await axios.put(`http://localhost:3000/list/`, {
         Job_Title,
         Description,
         Status,
         employeeListId,
       });
-    } else {
-      await axios.post(`http://localhost:3000/list/${listId}`, {
+      // history(`/home`);
+    } else if (list_id !== null) {
+      await axios.post(`http://localhost:3000/list/${list_id}`, {
+        list_id,
         Job_Title,
         Description,
         Status,
-        employeeListId,
       });
+      // history(`/home`);
     }
+   
   };
-  useEffect(() => {
-    async function getData() {
-      const allData = await axios.get(`http://localhost:3000/list/${listId}`);
-      console.log("allData", allData);
-      setJobTitle(allData.data[0]);
-      setJobDescription(allData.data[0]);
-    }
-    getData();
-  }, [ listId ]);
+
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -97,7 +100,7 @@ export default function JobSubmitForm() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -108,21 +111,58 @@ export default function JobSubmitForm() {
               id="Job Title"
               label="Job Title"
               name="JobTitle"
+              defaultValue={Job_Title}
+              multiline
+              maxRows={4}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              multiline={true}
+              multiline
               rows="6"
               name="Description"
               label="Description"
               type="string"
               id="Description"
+              defaultValue={Description}
             />
+            <RadioGroup row name="Status" defaultValue="New">
+              <FormControlLabel
+                value="New"
+                control={<Radio />}
+                label="New"
+                onChange={(e) => setStatus(e.target.value)}
+              />
+              <FormControlLabel
+                value="On Hold"
+                control={<Radio />}
+                label="On Hold"
+                onChange={(e) => setStatus(e.target.value)}
+              />
+              <FormControlLabel
+                value="In Processes"
+                control={<Radio />}
+                label="In Processes"
+                onChange={(e) => setStatus(e.target.value)}
+              />
+              <FormControlLabel
+                value="Pending"
+                control={<Radio />}
+                label="Pending"
+                onChange={(e) => setStatus(e.target.value)}
+              />
+              <FormControlLabel
+                value="Completed"
+                control={<Radio />}
+                label="Completed"
+                onChange={(e) => setStatus(e.target.value)}
+              />
+            </RadioGroup>
             <Button
               type="submit"
               fullWidth
+              onSubmit={handleSubmit}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
