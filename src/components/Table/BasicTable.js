@@ -11,19 +11,35 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
+import e from "cors";
 
 export default function BasicTable() {
   const [tableData, setTableData] = useState();
   const [employeeId, setEmployeeId] = useState();
+  // const DeleteId = null;
+  // console.log("🚀 ~ file: BasicTable.js ~ line 20 ~ BasicTable ~ DeleteId", DeleteId)
+  
   async function getData() {
     const allData = await axios.get(`http://localhost:3000/employee/job/3`);
-    console.log('allData',allData);
-    setEmployeeId(allData.data[0].employee_id)
+    console.log("allData", allData);
+    setEmployeeId(allData.data[0].employee_id);
     setTableData(allData.data[0].List);
   }
-
+  // const handleDeleteClick = async (e) => {
+  //   console.log(e);
+  //   console.log("i am deleted");
+  //   const response = await axios.delete(`http://localhost:3000/list/${e}`);
+  //   console.log(response);
+  // };
+  async function handleDeleteClick(e){
+    console.log(e);
+    console.log("i am deleted");
+    const response = await axios.delete(`http://localhost:3000/list/${e}`);
+    console.log(response);
+    
+  };
   useEffect(() => {
-   getData();
+    getData();
   }, []);
   console.log(employeeId);
   console.log(tableData);
@@ -32,7 +48,7 @@ export default function BasicTable() {
   } else {
     return;
   }
-  
+
   return (
     <TableContainer component={Paper}>
       <Grid container justifyContent="center">
@@ -52,22 +68,25 @@ export default function BasicTable() {
               <TableRow
                 key={row.list_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-          <TableCell align="left">{row.list_id}</TableCell>
+              >
+                <TableCell align="left">{row.list_id}</TableCell>
                 <TableCell component="th" scope="row">
                   {row.Job_Title}
                 </TableCell>
                 <TableCell align="left">{row.Description}</TableCell>
                 <TableCell align="left">{row.Status}</TableCell>
-                <TableCell align="left">{row.create_at}</TableCell>
-                <TableCell >
-                  <Stack  direction='row-reverse' spacing={1}>
-                    <DeleteButton  id={row.list_id} />
-                    <EditButton  id={row.list_id} />
+                <TableCell align="left">{row.created_at}</TableCell>
+                <TableCell>
+                  <Stack direction="row-reverse" spacing={1}>
+                    <DeleteButton
+                      id={row.list_id}
+                      handleDeleteClick={handleDeleteClick}
+                    />
+                    <EditButton id={row.list_id} />
                   </Stack>
                 </TableCell>
-          </TableRow>
-          ))} 
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Grid>
