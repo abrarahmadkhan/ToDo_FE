@@ -18,9 +18,7 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 export default function JobSubmitForm() {
   const [Job_Title, setJobTitle] = useState("");
-  console.log("🚀 ~ file: CreateJob.js ~ line 21 ~ JobSubmitForm ~ Job_Title", Job_Title)
   const [Description, setJobDescription] = useState("");
-  console.log("🚀 ~ file: CreateJob.js ~ line 23 ~ JobSubmitForm ~ Description", Description)
   const [list_id, setListId] = useState(null);
   const [Status, setStatus] = useState("New");
   const history = useNavigate();
@@ -65,7 +63,7 @@ export default function JobSubmitForm() {
         Status,
         employeeListId,
       });
-      // history(`/home`);
+      history(`/home`);
     } else if (list_id !== null) {
       await axios.post(`http://localhost:3000/list/${list_id}`, {
         list_id,
@@ -73,7 +71,7 @@ export default function JobSubmitForm() {
         Description,
         Status,
       });
-      // history(`/home`);
+      history(`/home`);
     }
    
   };
@@ -100,23 +98,26 @@ export default function JobSubmitForm() {
           </Typography>
           <Box
             component="form"
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
             <TextField
+              defaultValue={Job_Title}
               margin="normal"
+              InputLabelProps={{ shrink: true }}
               required
               fullWidth
               id="Job Title"
               label="Job Title"
               name="JobTitle"
-              defaultValue={Job_Title}
               multiline
+              onChange={(e) => setJobTitle(e.target.value)}
               maxRows={4}
             />
             <TextField
               margin="normal"
+              InputLabelProps={{ shrink: true }}
               required
               fullWidth
               multiline
@@ -125,6 +126,7 @@ export default function JobSubmitForm() {
               label="Description"
               type="string"
               id="Description"
+              onChange={(e) => setJobDescription(e.target.value)}
               defaultValue={Description}
             />
             <RadioGroup row name="Status" defaultValue="New">
@@ -162,7 +164,6 @@ export default function JobSubmitForm() {
             <Button
               type="submit"
               fullWidth
-              onSubmit={handleSubmit}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
