@@ -11,33 +11,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
-import e from "cors";
 
 export default function BasicTable() {
   const [tableData, setTableData] = useState();
   const [employeeId, setEmployeeId] = useState();
-  // const DeleteId = null;
-  // console.log("🚀 ~ file: BasicTable.js ~ line 20 ~ BasicTable ~ DeleteId", DeleteId)
-  
+
   async function getData() {
     const allData = await axios.get(`http://localhost:3000/employee/job/3`);
     console.log("allData", allData);
     setEmployeeId(allData.data[0].employee_id);
     setTableData(allData.data[0].List);
   }
-  // const handleDeleteClick = async (e) => {
-  //   console.log(e);
-  //   console.log("i am deleted");
-  //   const response = await axios.delete(`http://localhost:3000/list/${e}`);
-  //   console.log(response);
-  // };
-  async function handleDeleteClick(e){
-    console.log(e);
-    console.log("i am deleted");
-    const response = await axios.delete(`http://localhost:3000/list/${e}`);
-    console.log(response);
-    
-  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -78,10 +63,7 @@ export default function BasicTable() {
                 <TableCell align="left">{row.created_at}</TableCell>
                 <TableCell>
                   <Stack direction="row-reverse" spacing={1}>
-                    <DeleteButton
-                      id={row.list_id}
-                      handleDeleteClick={handleDeleteClick}
-                    />
+                    <DeleteButton id={row.list_id} getData={getData} />
                     <EditButton id={row.list_id} />
                   </Stack>
                 </TableCell>
