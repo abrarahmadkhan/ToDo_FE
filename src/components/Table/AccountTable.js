@@ -13,23 +13,22 @@ import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
 import jwt from "jwt-decode";
 
-export default function BasicTable() {
+export default function AccountTable() {
   const [tableData, setTableData] = useState();
-  // const [employeeId, setEmployeeId] = useState();
   const isAuth = window.sessionStorage.AccessToken;
   const user = jwt(isAuth);
-  console.log("🚀 ~ file: BasicTable.js ~ line 21 ~ BasicTable ~ user", user);
+  console.log("🚀 ~ file: AccountTable.js ~ line 21 ~ AccountTable ~ user", user)
 
   async function getData() {
-    if (user.Position !== "Admin") {
+    if (user.Position === "Admin") {
+        const AuthStr = 'Bearer'+ isAuth;
       const allData = await axios.get(
-        `http://localhost:3000/employee/job/${user.userId}`
+        `http://localhost:3000/employee` ,{
+            headers: {
+              'Authorization': AuthStr
+            }
+          }
       );
-      console.log("allData", allData);
-      // setEmployeeId(allData.data[0].employee_id);
-      setTableData(allData.data[0].List);
-    } else {
-      const allData = await axios.get(`http://localhost:3000/list/`);
       console.log("allData", allData);
       // setEmployeeId(allData.data[0].employee_id);
       setTableData(allData.data);

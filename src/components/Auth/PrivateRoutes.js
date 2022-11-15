@@ -8,10 +8,22 @@ const PrivateRoutes = () => {
   );
   if (isAuth !== undefined) {
     const user = jwt(isAuth);
-    if (user.iat * 1000 < Date.now()) {
+    // console.log("🚀 ~ file: PrivateRoutes.js ~ line 11 ~ PrivateRoutes ~ user", user)
+    
+    // console.log("🚀 ~ file: PrivateRoutes.js ~ line 13 ~ PrivateRoutes ~ Date.now()", Date.now())
+    // console.log("🚀 ~ file: PrivateRoutes.js ~ line 11 ~ PrivateRoutes ~ user", ((user.iat * 1000)+6000) )
+    if (((user.iat * 1000)+990000) > Date.now()) {
+      console.log("i am in if time left")
       return <Outlet />;
     }
+    else {
+      window.sessionStorage.clear();
+      console.log("i am in else time Expired")
+      return  <Navigate to="/" />;
+    }
   } else {
+    window.sessionStorage.clear();
+    console.log("i am in else time Expired")
     return  <Navigate to="/" />;
   }
 };

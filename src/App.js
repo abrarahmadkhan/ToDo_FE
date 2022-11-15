@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import JobSubmitForm from "./pages/CreateJob/CreateJob";
 import PrivateRoutes from "./components/Auth/PrivateRoutes";
 import SignUp from "./pages/SignUp/Signup";
+import AccountPage from "./pages/AccountesList/Accountes";
 // import PrivateRoute from "./components/Auth/Session";
 // import PrivateRoute from "./components/Auth/Session.guard";
 // import cors from 'cors';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/home" element={<HomePage />} exact />
           <Route path="/form" element={<JobSubmitForm />} exact />
           <Route path="/form/:id" element={<JobSubmitForm />} />
+          <Route path="/account" element={<AccountPage />} exact/>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -11,15 +11,21 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "@mui/material";
+import { useState } from "react";
+import LogoutButton from "../Button/LogOut";
+import jwt from "jwt-decode";
+import LogoOG from "../Images/LogoOG.png";
 
 // const pages = ["Create New", "Pending", "InProcesses", "Completed"];
 //const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const isAuth = window.sessionStorage.AccessToken;
+  const user = jwt(isAuth);
+
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   // const [CreateNew, setCreateNew] = React.useState();
   
   const handleOpenNavMenu = (event) => {
@@ -41,12 +47,11 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xll">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/home"
+            href="home"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -57,7 +62,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            OptimaGeeks Jobs
+            <img src={LogoOG} width="75" height="75" alt="LogoOG"/>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -96,35 +101,35 @@ function ResponsiveAppBar() {
               ))} */}
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="form" color="inherit" underline="none">
+                  <Link href="/form" color="inherit" underline="none">
                     <Button onClick={handleCloseNavMenu}>Create New</Button>
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="form" color="inherit" underline="none">
+                  <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseNavMenu}>Pending</Button>
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="form" color="inherit" underline="none">
+                  <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseNavMenu}>In Processes</Button>
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="form" color="inherit" underline="none">
+                  <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseNavMenu}>Completed</Button>
                   </Link>
                 </Typography>
               </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          
           <Typography
             variant="h5"
             noWrap
@@ -141,7 +146,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            OptimaGeeks Jobs
+            <img src={LogoOG} width="75" height="75" alt="LogoOG"/>
           </Typography>
           <Box sx={{ flexGrow: 3, display: { xs: "none", md: "flex" } }}>
             <Button
@@ -177,7 +182,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Semy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar alt={user.user} src="/static/images/avatar/1.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -196,32 +201,30 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem>
-                <Typography textAlign="center">
+              {/* <MenuItem> */}
+                {/* <Typography textAlign="center">
                   <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseUserMenu}>Profile</Button>
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem>
-                <Typography textAlign="center">
+                {/* <Typography textAlign="center">
                   <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseUserMenu}>Account</Button>
                   </Link>
-                </Typography>
-              </MenuItem>
+                </Typography> 
+              </MenuItem> */}
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
+                  <Link href="/home" color="inherit" underline="none">
                     <Button onClick={handleCloseUserMenu}>Dashboard</Button>
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
-                    <Button onClick={handleCloseUserMenu}>Logout</Button>
-                  </Link>
+                    <Button onClick={handleCloseUserMenu}><LogoutButton/></Button>
                 </Typography>
               </MenuItem>
             </Menu>

@@ -15,6 +15,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import AccessToken from "../../components/Auth/AccessToken";
 import { useNavigate } from "react-router-dom";
+import jwt from "jwt-decode";
+import { Alert, Snackbar } from "@mui/material";
+import { useState } from "react";
 
 function Copyright(props) {
   return (
@@ -38,6 +41,17 @@ const theme = createTheme();
 
 export default function SignIn() {
   const history = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [opened, setOpened] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+    setOpened(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,15 +64,25 @@ export default function SignIn() {
       password: data.get("password"),
     });
     console.log(
+      "🚀 ~ file: SignIn.js ~ line 52 ~ handleSubmit ~ response ",
+      response.data
+    );
+    console.log(
       "🚀 ~ file: SigIn.js ~ line 55 ~ handleSubmit ~ response",
       response.data.access_token
     );
     
+   
     if (response.data.access_token !== undefined) {
-      console.log("here in if");
-      AccessToken(response.data.access_token);
-      history('/home');
+      const user = jwt(response.data.access_token);
+      setOpen(true);
+      if (user.isActive !== false) {
+        console.log("here in if");
+        AccessToken(response.data.access_token);
+        history("/home");
+      }
     } else {
+      setOpened(true);
       console.log("here in else");
       return null;
     }
@@ -119,9 +143,8 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-            
               Sign In
-              </Button>
+            </Button>
             <Grid container>
               {/* <Grid item xs>
                 <Link href="#" variant="body2">
@@ -138,6 +161,16 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+      <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+          Account Exist (Note: Account will be Active After Review)
+        </Alert>
+      </Snackbar>
+      <Snackbar open={opened} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        Invalid Username or Password
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }

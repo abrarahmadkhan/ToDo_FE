@@ -21,6 +21,7 @@ export default function JobSubmitForm() {
   const [Description, setJobDescription] = useState("");
   const [list_id, setListId] = useState(null);
   const [Status, setStatus] = useState("New");
+  console.log("🚀 ~ file: CreateJob.js ~ line 24 ~ JobSubmitForm ~ Status", Status)
   const history = useNavigate();
   const isAuth = window.sessionStorage.AccessToken;
   const user = jwt(isAuth);
@@ -38,9 +39,10 @@ export default function JobSubmitForm() {
         const allData = await axios.get(
           `http://localhost:3000/list/${list_id}`
         );
-        console.log("allData", allData.data.Description);
+        console.log("allData", allData.data);
         setJobTitle(allData.data.Job_Title);
         setJobDescription(allData.data.Description);
+        setStatus(allData.data.Status)
       }
     }
     getData();
@@ -129,7 +131,7 @@ export default function JobSubmitForm() {
               onChange={(e) => setJobDescription(e.target.value)}
               defaultValue={Description}
             />
-            <RadioGroup row name="Status" defaultValue="New">
+            <RadioGroup row name="Status" defaultValue="New" value={Status} >
               <FormControlLabel
                 value="New"
                 control={<Radio />}

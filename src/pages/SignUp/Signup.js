@@ -38,7 +38,6 @@ const theme = createTheme();
 
 export default function SignUp() {
   const [open, setOpen] = useState(false);
-  // const [opened, setOpened] = useState(false);
   const [position, setPosition] = useState("Employee");
   const [employee_name, setName] = useState("");
   console.log(
@@ -95,9 +94,9 @@ export default function SignUp() {
       response.data.message
     );
     if (response.data.message !== "User Name already Exist") {
-      // setOpened(true);
       history(`/`);
     } else {
+
       setOpen(true);
     }
   };
@@ -212,14 +211,9 @@ export default function SignUp() {
       </Container>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          User Name Already Exist
+          User Name Already Exist or Incomplete Values
         </Alert>
       </Snackbar>
-      {/* <Snackbar open={opened} autoHideDuration={10000}  onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Account Created (Note: Account will be Active After Review)
-        </Alert>
-      </Snackbar> */}
     </ThemeProvider>
   );
 }

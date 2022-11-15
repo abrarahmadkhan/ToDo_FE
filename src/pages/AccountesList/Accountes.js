@@ -1,11 +1,9 @@
-import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import * as React from "react";
-import CreateButton from "../../components/Button/CreateButton";
 import ResponsiveAppBar from "../../components/Header/NewHeader";
-import BasicTable from "../../components/Table/BasicTable";
+import AccountTable from "../../components/Table/AccountTable";
 
-export default function HomePage() {
+export default function AccountPage() {
   //   const handleSubmit = (event) => {
   //     event.preventDefault();
   //     const data = new FormData(event.currentTarget);
@@ -18,12 +16,7 @@ export default function HomePage() {
   return (
     <Box>
       <ResponsiveAppBar />
-      <Box sx={{ my: 2, px: 2 }}>
-        <Typography textAlign="right">
-          <CreateButton />
-        </Typography>
-      </Box>
-      <BasicTable />
+      <AccountTable/>
     </Box>
   );
 }
