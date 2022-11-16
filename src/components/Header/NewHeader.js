@@ -27,7 +27,7 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   // const [CreateNew, setCreateNew] = React.useState();
-  
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -62,7 +62,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <img src={LogoOG} width="75" height="75" alt="LogoOG"/>
+            <img src={LogoOG} width="75" height="75" alt="LogoOG" />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -101,12 +101,12 @@ function ResponsiveAppBar() {
               ))} */}
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="/form" color="inherit" underline="none">
-                    <Button onClick={handleCloseNavMenu}>Create New</Button>
+                  <Link href="/home" color="inherit" underline="none">
+                    <Button onClick={handleCloseNavMenu}>HomePage</Button>
                   </Link>
                 </Typography>
               </MenuItem>
-              <MenuItem>
+              {/* <MenuItem>
                 <Typography textAlign="center">
                   <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseNavMenu}>Pending</Button>
@@ -119,17 +119,17 @@ function ResponsiveAppBar() {
                     <Button onClick={handleCloseNavMenu}>In Processes</Button>
                   </Link>
                 </Typography>
-              </MenuItem>
+              // </MenuItem> */}
               <MenuItem>
                 <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
-                    <Button onClick={handleCloseNavMenu}>Completed</Button>
+                  <Link href="/account" color="inherit" underline="none">
+                    <Button onClick={handleCloseNavMenu}>Users</Button>
                   </Link>
                 </Typography>
               </MenuItem>
             </Menu>
           </Box>
-          
+
           <Typography
             variant="h5"
             noWrap
@@ -146,17 +146,25 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <img src={LogoOG} width="75" height="75" alt="LogoOG"/>
+            <img src={LogoOG} width="75" height="75" alt="LogoOG" />
           </Typography>
           <Box sx={{ flexGrow: 3, display: { xs: "none", md: "flex" } }}>
             <Button
               variant="text"
-              href="form"
-              sx={{ my: 2, color: "white", display: "block" }}
+              href="/home"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
             >
-              Create New
+              Home Page
             </Button>
-            <Button
+            {/* <Button
               variant="text"
               href="form"
               sx={{ my: 2, color: "white", display: "block" }}
@@ -169,13 +177,21 @@ function ResponsiveAppBar() {
               sx={{ my: 2, color: "white", display: "block" }}
             >
               In Processes
-            </Button>
+            </Button> */}
             <Button
               variant="text"
-              href="form"
-              sx={{ my: 2, color: "white", display: "block" }}
+              href="/account"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
             >
-              Completed
+              Users
             </Button>
           </Box>
 
@@ -202,7 +218,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {/* <MenuItem> */}
-                {/* <Typography textAlign="center">
+              {/* <Typography textAlign="center">
                   <Link href="#" color="inherit" underline="none">
                     <Button onClick={handleCloseUserMenu}>Profile</Button>
                   </Link>
@@ -224,7 +240,9 @@ function ResponsiveAppBar() {
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center">
-                    <Button onClick={handleCloseUserMenu}><LogoutButton/></Button>
+                  <Button onClick={handleCloseUserMenu}>
+                    <LogoutButton />
+                  </Button>
                 </Typography>
               </MenuItem>
             </Menu>
