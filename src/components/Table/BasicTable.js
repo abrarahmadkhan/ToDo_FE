@@ -12,6 +12,7 @@ import axios from "axios";
 import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
 import jwt from "jwt-decode";
+import FilterSelect from "../Button/FilterButton";
 
 export default function BasicTable() {
   const [tableData, setTableData] = useState();
@@ -20,14 +21,19 @@ export default function BasicTable() {
   const user = jwt(isAuth);
   console.log("🚀 ~ file: BasicTable.js ~ line 21 ~ BasicTable ~ user", user);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [page, setPage] = useState(0);
-  const [Stat, setStatus] = useState();
-  console.log("🚀 ~ file: BasicTable.js ~ line 25 ~ BasicTable ~ Stat", Stat);
-  const [tableUpdate, setTableUpdate] = useState(false);
   console.log(
-    "🚀 ~ file: BasicTable.js ~ line 27 ~ BasicTable ~ tableUpdate",
-    tableUpdate
+    "🚀 ~ file: BasicTable.js ~ line 23 ~ BasicTable ~ rowsPerPage",
+    rowsPerPage
   );
+  const [page, setPage] = useState(0);
+  const [Stat, setStatus] = useState([]);
+  console.log("🚀 ~ file: BasicTable.js ~ line 25 ~ BasicTable ~ Stat", Stat);
+  const [totalListNum, setTotalListNum] = useState();
+  console.log(
+    "🚀 ~ file: BasicTable.js ~ line 27 ~ BasicTable ~ totalListNum",
+    totalListNum
+  );
+
   async function getData() {
     if (user.Position !== "Admin") {
       const allData = await axios.get(
@@ -36,88 +42,95 @@ export default function BasicTable() {
       console.log("allData", allData);
       setTableData(allData.data[0].List);
     } else {
-      const allData = await axios.get(`http://localhost:3000/list/`);
+      const allData = await axios.Post(
+        `http://localhost:3000/list/`,{
+          page: page,
+          rows: rowsPerPage,
+          Status: Stat
+        }
+      );
       console.log("allData", allData);
-      setTableData(allData.data);
+      setTotalListNum(allData.data[1]);
+      setTableData(allData.data[0]);
     }
   }
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [page, rowsPerPage, Stat]);
   console.log(tableData);
   if (tableData !== undefined) {
     console.log(tableData);
   } else {
     return;
   }
-  if (Stat === "New" && tableUpdate === false) {
-    console.log(tableData);
-    const filteredTable = tableData.filter(filterTable);
-    console.log(
-      "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
-      filteredTable
-    );
-    if (filteredTable !== tableData) {
-      console.log("if Filtered Table == to Table Data");
-      setTableUpdate(true);
-      setTableData(filteredTable);
-    }
-  }
-  if (Stat === "Pending" && tableUpdate === false) {
-    console.log(tableData);
-    const filteredTable = tableData.filter(filterTable);
-    console.log(
-      "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
-      filteredTable
-    );
-    console.log("if Filtered Table == to Table Data");
-    setTableUpdate(true);
-    setTableData(filteredTable);
-  }
-  if (Stat === "On Hold" && tableUpdate === false) {
-    console.log(tableData);
-    const filteredTable = tableData.filter(filterTable);
-    console.log(
-      "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
-      filteredTable
-    );
-    if (filteredTable !== tableData) {
-      console.log("if Filtered Table == to Table Data");
-      setTableUpdate(true);
-      setTableData(filteredTable);
-    }
-  }
-  if (Stat === "In Processes" && tableUpdate === false) {
-    console.log(tableData);
-    const filteredTable = tableData.filter(filterTable);
-    console.log(
-      "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
-      filteredTable
-    );
-    if (filteredTable !== tableData) {
-      console.log("if Filtered Table == to Table Data");
-      setTableUpdate(true);
-      setTableData(filteredTable);
-    }
-  }
-  if (Stat === "Completed" && tableUpdate === false) {
-    console.log(tableData);
-    const filteredTable = tableData.filter(filterTable);
-    console.log(
-      "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
-      filteredTable
-    );
-    if (filteredTable !== tableData) {
-      console.log("if Filtered Table == to Table Data");
-      setTableUpdate(true);
-      setTableData(filteredTable);
-    }
-  }
+  // if (Stat === "New" && tableUpdate === false) {
+  //   console.log(tableData);
+  //   const filteredTable = tableData.filter(filterTable);
+  //   console.log(
+  //     "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
+  //     filteredTable
+  //   );
+  //   if (filteredTable !== tableData) {
+  //     console.log("if Filtered Table == to Table Data");
+  //     setTableUpdate(true);
+  //     setTableData(filteredTable);
+  //   }
+  // }
+  // if (Stat === "Pending" && tableUpdate === false) {
+  //   console.log(tableData);
+  //   const filteredTable = tableData.filter(filterTable);
+  //   console.log(
+  //     "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
+  //     filteredTable
+  //   );
+  //   console.log("if Filtered Table == to Table Data");
+  //   setTableUpdate(true);
+  //   setTableData(filteredTable);
+  // }
+  // if (Stat === "On Hold" && tableUpdate === false) {
+  //   console.log(tableData);
+  //   const filteredTable = tableData.filter(filterTable);
+  //   console.log(
+  //     "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
+  //     filteredTable
+  //   );
+  //   if (filteredTable !== tableData) {
+  //     console.log("if Filtered Table == to Table Data");
+  //     setTableUpdate(true);
+  //     setTableData(filteredTable);
+  //   }
+  // }
+  // if (Stat === "In Processes" && tableUpdate === false) {
+  //   console.log(tableData);
+  //   const filteredTable = tableData.filter(filterTable);
+  //   console.log(
+  //     "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
+  //     filteredTable
+  //   );
+  //   if (filteredTable !== tableData) {
+  //     console.log("if Filtered Table == to Table Data");
+  //     setTableUpdate(true);
+  //     setTableData(filteredTable);
+  //   }
+  // }
+  // if (Stat === "Completed" && tableUpdate === false) {
+  //   console.log(tableData);
+  //   const filteredTable = tableData.filter(filterTable);
+  //   console.log(
+  //     "🚀 ~ file: BasicTable.js ~ line 56 ~ BasicTable ~ filteredTable",
+  //     filteredTable
+  //   );
+  //   if (filteredTable !== tableData) {
+  //     console.log("if Filtered Table == to Table Data");
+  //     setTableUpdate(true);
+  //     setTableData(filteredTable);
+  //   }
+  // }
 
-  function filterTable(table) {
-    return table.Status === Stat;
-  }
+  // function filterTable(table) {
+  //   return table.Status === Stat;
+  // }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -126,8 +139,15 @@ export default function BasicTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
+  console.log(
+    "🚀 ~ file: BasicTable.js ~ line 130 ~ BasicTable ~ emptyRows",
+    emptyRows
+  );
   return (
     <Box sx={{ width: "100%" }}>
+      <FilterSelect data={Stat} setStatus={setStatus} />
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer component={Paper}>
           <Grid container justifyContent="center">
@@ -155,13 +175,7 @@ export default function BasicTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {(rowsPerPage > 0
-                  ? tableData.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : tableData
-                ).map((row) => (
+                {tableData.map((row) => (
                   <TableRow
                     key={row.list_id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -181,16 +195,14 @@ export default function BasicTable() {
                     </TableCell>
                   </TableRow>
                 ))}
-                <TableCell colSpan={6} />
               </TableBody>
             </Table>
-            {/* </DataGrid> */}
           </Grid>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={tableData.length}
+          count={totalListNum}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

@@ -24,7 +24,6 @@ export default function DeleteButton(props) {
       <Button
         variant="outlined"
         startIcon={<DeleteIcon />}
-        onC
         onClick={() => {
           handleDeleteClick();
         }}
