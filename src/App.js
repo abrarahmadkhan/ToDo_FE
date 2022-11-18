@@ -6,22 +6,22 @@ import JobSubmitForm from "./pages/CreateJob/CreateJob";
 import PrivateRoutes from "./components/Auth/PrivateRoutes";
 import SignUp from "./pages/SignUp/Signup";
 import AccountPage from "./pages/AccountesList/Accountes";
-// import PrivateRoute from "./components/Auth/Session";
-// import PrivateRoute from "./components/Auth/Session.guard";
-// import cors from 'cors';
+import AdminRoutes from "./components/Auth/AdminRoute";
+
 
 function App() {
-  // App.use(cors());
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />
-        <Route element={<PrivateRoutes />} >
+        <Route element={<PrivateRoutes />}>
           <Route path="/home" element={<HomePage />} exact />
           <Route path="/form" element={<JobSubmitForm />} exact />
           <Route path="/form/:id" element={<JobSubmitForm />} />
-          <Route path="/account" element={<AccountPage />} exact/>
+          <Route element={<AdminRoutes />}>
+            <Route path="/account" element={<AccountPage />} exact />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

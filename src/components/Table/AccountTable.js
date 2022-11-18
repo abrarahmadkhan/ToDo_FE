@@ -11,30 +11,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
-import jwt from "jwt-decode";
+// import jwt from "jwt-decode";
 
 export default function AccountTable() {
   const [tableData, setTableData] = useState();
-  const isAuth = window.sessionStorage.AccessToken;
-  const user = jwt(isAuth);
-  console.log("🚀 ~ file: AccountTable.js ~ line 21 ~ AccountTable ~ user", user)
-
   async function getData() {
-    if (user.Position === "Admin") {
-        const AuthStr = 'Bearer'+ isAuth;
       const allData = await axios.get(
-        `http://localhost:3000/employee` ,{
-            headers: {
-              'Authorization': AuthStr
-            }
-          }
+        `http://localhost:3000/employee` 
       );
       console.log("allData", allData);
       // setEmployeeId(allData.data[0].employee_id);
       setTableData(allData.data);
     }
-  }
-
   useEffect(() => {
     getData();
   }, []);
@@ -53,19 +41,22 @@ export default function AccountTable() {
           <TableHead>
             <TableRow>
               <TableCell align="left" sx={{ fontSize: "medium" }}>
-                List Id
+              Employee Id
               </TableCell>
               <TableCell align="left" sx={{ fontSize: "medium" }}>
-                Job Title
+              Employee Name
               </TableCell>
               <TableCell align="left" sx={{ fontSize: "medium" }}>
-                Job Description
+              Position
               </TableCell>
               <TableCell align="left" sx={{ fontSize: "medium" }}>
-                Status
+              Phone
               </TableCell>
               <TableCell align="left" sx={{ fontSize: "medium" }}>
-                Date
+              Username
+              </TableCell>
+              <TableCell align="left" sx={{ fontSize: "medium" }}>
+              IsActive
               </TableCell>
               <TableCell align="right" sx={{ fontSize: "medium" }}>
                 Option
@@ -75,20 +66,21 @@ export default function AccountTable() {
           <TableBody>
             {tableData.map((row) => (
               <TableRow
-                key={row.list_id}
+                key={row.employee_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{row.list_id}</TableCell>
+                <TableCell align="left">{row.employee_id}</TableCell>
                 <TableCell component="th" scope="row">
-                  {row.Job_Title}
+                  {row.employee_name}
                 </TableCell>
-                <TableCell align="left">{row.Description}</TableCell>
-                <TableCell align="left">{row.Status}</TableCell>
-                <TableCell align="left">{row.created_at}</TableCell>
+                <TableCell align="left">{row.position}</TableCell>
+                <TableCell align="left">{row.phone}</TableCell>
+                <TableCell align="left">{row.username}</TableCell>
+                <TableCell align="left">{row.isActive}</TableCell>
                 <TableCell>
                   <Stack direction="row-reverse" spacing={1}>
-                    <DeleteButton id={row.list_id} getData={getData} />
-                    <EditButton id={row.list_id} />
+                    {/* <DeleteButton id={row.employee_id} getData={getData} />
+                    <EditButton id={row.employee_id} /> */}
                   </Stack>
                 </TableCell>
               </TableRow>

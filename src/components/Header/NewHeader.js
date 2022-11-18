@@ -16,9 +16,8 @@ import { useState } from "react";
 import LogoutButton from "../Button/LogOut";
 import jwt from "jwt-decode";
 import LogoOG from "../Images/LogoOG.png";
-
-// const pages = ["Create New", "Pending", "InProcesses", "Completed"];
-//const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import HandleAdmin from "../Button/UserButton/userButton1";
+import HandleAdmin2 from "../Button/UserButton/userButton2";
 
 function ResponsiveAppBar() {
   const isAuth = window.sessionStorage.AccessToken;
@@ -26,7 +25,6 @@ function ResponsiveAppBar() {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  // const [CreateNew, setCreateNew] = React.useState();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -94,11 +92,6 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {/* {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCreateNewClick}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))} */}
               <MenuItem>
                 <Typography textAlign="center">
                   <Link href="/home" color="inherit" underline="none">
@@ -106,27 +99,7 @@ function ResponsiveAppBar() {
                   </Link>
                 </Typography>
               </MenuItem>
-              {/* <MenuItem>
-                <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
-                    <Button onClick={handleCloseNavMenu}>Pending</Button>
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem>
-                <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
-                    <Button onClick={handleCloseNavMenu}>In Processes</Button>
-                  </Link>
-                </Typography>
-              // </MenuItem> */}
-              <MenuItem>
-                <Typography textAlign="center">
-                  <Link href="/account" color="inherit" underline="none">
-                    <Button onClick={handleCloseNavMenu}>Users</Button>
-                  </Link>
-                </Typography>
-              </MenuItem>
+              <HandleAdmin />
             </Menu>
           </Box>
 
@@ -164,35 +137,7 @@ function ResponsiveAppBar() {
             >
               Home Page
             </Button>
-            {/* <Button
-              variant="text"
-              href="form"
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Pending
-            </Button>
-            <Button
-              variant="text"
-              href="form"
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              In Processes
-            </Button> */}
-            <Button
-              variant="text"
-              href="/account"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Users
-            </Button>
+            <HandleAdmin2 />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -217,20 +162,6 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* <MenuItem> */}
-              {/* <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
-                    <Button onClick={handleCloseUserMenu}>Profile</Button>
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem>
-                {/* <Typography textAlign="center">
-                  <Link href="#" color="inherit" underline="none">
-                    <Button onClick={handleCloseUserMenu}>Account</Button>
-                  </Link>
-                </Typography> 
-              </MenuItem> */}
               <MenuItem>
                 <Typography textAlign="center">
                   <Link href="/home" color="inherit" underline="none">
