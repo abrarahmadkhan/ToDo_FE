@@ -7,6 +7,7 @@ import PrivateRoutes from "./components/Auth/PrivateRoutes";
 import SignUp from "./pages/SignUp/Signup";
 import AccountPage from "./pages/AccountesList/Accountes";
 import AdminRoutes from "./components/Auth/AdminRoute";
+import AccountForm from "./pages/AccountForm/AccountForm";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/form/:id" element={<JobSubmitForm />} />
           <Route element={<AdminRoutes />}>
             <Route path="/account" element={<AccountPage />} exact />
+            <Route path="/account_form/:id" element={<AccountForm />} exact />
           </Route>
         </Route>
       </Routes>
