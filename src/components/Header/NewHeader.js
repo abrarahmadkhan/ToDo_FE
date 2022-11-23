@@ -49,7 +49,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            // href="home"
+            href="/home"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -95,7 +95,7 @@ function ResponsiveAppBar() {
               <MenuItem>
                 <Typography textAlign="center">
                   <Link href="/home" color="inherit" underline="none">
-                    <Button onClick={handleCloseNavMenu}>HomePage</Button>
+                    <Button onClick={handleCloseNavMenu}>Job List</Button>
                   </Link>
                 </Typography>
               </MenuItem>
@@ -107,7 +107,7 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component="a"
-            // href="home"
+            href="/home"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -135,7 +135,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              Home Page
+              Job List
             </Button>
             <HandleAdmin2 />
           </Box>

@@ -38,25 +38,20 @@ const theme = createTheme();
 
 export default function SignUp() {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const [position, setPosition] = useState("Employee");
   const [employee_name, setName] = useState("");
-  console.log(
-    "🚀 ~ file: Signup.js ~ line 40 ~ SignUp ~ employee_name",
-    employee_name
-  );
   const [phone, setPhone] = useState("");
-  console.log("🚀 ~ file: Sigup.js ~ line 43 ~ SignUp ~ Phone", phone);
   const [username, setEmail] = useState("");
-  console.log("🚀 ~ file: Sigup.js ~ line 45 ~ SignUp ~ userName", username);
   const [password, setPassword] = useState("");
-  console.log("🚀 ~ file: Sigup.js ~ line 47 ~ SignUp ~ Password", password);
-  console.log("🚀 ~ file: Sigup.js ~ line 35 ~ SignUp ~ Position", position);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const access_token = "null";
   const history = useNavigate();
-  console.log(
-    "🚀 ~ file: Sigup.js ~ line 49 ~ SignUp ~ access_token",
-    access_token
-  );
+  if (password.length>8 && password.length<15 && password.search(/[a-zA-Z]+/)!==-1 && password.search(/[0-9]+/)!==-1&&errorPassword===false){
+    setErrorPassword(true)
+  } 
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -69,10 +64,6 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // setName(data.get("Name"));
-    // setPhone(data.get("Phone"));
-    // setEmail(data.get("email"));
-    // setPassword(data.get("password"));
     console.log({
       employee_name: data.get("Name"),
       phone: data.get("Phone"),
@@ -81,23 +72,35 @@ export default function SignUp() {
       position: position,
       access_token: access_token,
     });
-    const response = await axios.put(`http://localhost:3000/employee/`, {
-      employee_name,
-      position,
-      phone,
-      username,
-      password,
-      access_token,
-    });
-    console.log(
-      "🚀 ~ file: Signup.js ~ line 83 ~ handleSubmit ~ response",
-      response.data.message
-    );
-    if (response.data.message !== "User Name already Exist") {
-      history(`/`);
+    if (
+      employee_name !== "" &&
+      phone !== "" &&
+      username !== "" &&
+      password !== "" &&
+      errorPassword !== false&&
+      password === confirmPassword
+    ) {
+      const response = await axios.put(`http://localhost:3000/employee/`, {
+        employee_name,
+        position,
+        phone,
+        username,
+        password,
+        access_token,
+      });
+      console.log(
+        "🚀 ~ file: Signup.js ~ line 83 ~ handleSubmit ~ response",
+        response.data.message
+      );
+      if (response.data.message !== "User Name already Exist") {
+        history(`/`);
+      } else {
+        setOpen(true);
+      }
     } else {
-
-      setOpen(true);
+      setError(true);
+      await delay(500);
+      setError(false);
     }
   };
 
@@ -129,8 +132,10 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
+                  value={employee_name}
+                  error={error === true}
                   name="Name"
-                  required
+                  required={true}
                   fullWidth
                   id="Name"
                   label="Name"
@@ -140,7 +145,9 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  required={true}
+                  value={phone}
+                  error={error === true}
                   fullWidth
                   type="number"
                   id="Phone"
@@ -152,7 +159,9 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
+                  required={true}
+                  value={username}
+                  error={error === true}
                   onChange={(e) => setEmail(e.target.value)}
                   fullWidth
                   id="email"
@@ -163,13 +172,28 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
+                  required={true}
+                  error={errorPassword!==true}
                   onChange={(e) => setPassword(e.target.value)}
                   fullWidth
+                  helperText={errorPassword === false ? 'At least 8 characters long,At least 1 capital letter or At least 1 lowercase letter and At least 1 numeric character' : ' '}
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={password !== confirmPassword}
+                  required={true}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  fullWidth
+                  name="Confirm password"
+                  label="Confirm Password"
+                  type="password"
+                  id="Confirm password"
                   autoComplete="new-password"
                 />
               </Grid>

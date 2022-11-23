@@ -37,11 +37,15 @@ export default function BasicTable() {
   async function getData() {
     if (user.Position !== "Admin") {
       console.log("if Employee");
-      const allData = await axios.get(
-        `http://localhost:3000/employee/job/${user.userId}`
-      );
+      const allData = await axios.post(
+        `http://localhost:3000/employee/job/${user.userId}`,{
+          page: page,
+          rows: rowsPerPage,
+          Status: Stat,
+        });
       console.log("allData", allData);
-      setTableData(allData.data[0].List);
+      setTotalListNum(allData.data[1]);
+      setTableData(allData.data[0]);
     } else {
       console.log("if Admin");
       const allData = await axios.post(`http://localhost:3000/list/`, {
