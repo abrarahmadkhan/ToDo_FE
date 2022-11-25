@@ -40,6 +40,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+
   const history = useNavigate();
   const [open, setOpen] = useState(false);
   const [opened, setOpened] = useState(false);
@@ -71,10 +72,10 @@ export default function SignIn() {
       "🚀 ~ file: SigIn.js ~ line 55 ~ handleSubmit ~ response",
       response.data.access_token
     );
-    
-   
+
     if (response.data.access_token !== undefined) {
       const user = jwt(response.data.access_token);
+     
       setOpen(true);
       if (user.isActive !== false) {
         console.log("here in if");
@@ -163,7 +164,7 @@ export default function SignIn() {
       </Snackbar>
       <Snackbar open={opened} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-        Invalid Username or Password
+          Invalid Username or Password
         </Alert>
       </Snackbar>
     </ThemeProvider>

@@ -7,9 +7,9 @@ export default function HandleAdmin2() {
   const user = jwt(isAuth);
   if (user.Position === "Admin") {
     return (
+      <div>
       <Button
         variant="text"
-        // onClick={handleUserIsPressed}
         href="/account"
         sx={{
           mr: 2,
@@ -20,11 +20,12 @@ export default function HandleAdmin2() {
           color: "inherit",
           textDecoration: "none",
         }}
-        // onClick={setUserIsPressed(true)}
       >
         Users
       </Button>
+      </div>
     );
   } else {
+    
   }
-};
+}

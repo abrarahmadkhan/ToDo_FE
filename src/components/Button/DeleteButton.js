@@ -18,7 +18,7 @@ export default function DeleteButton(props) {
       console.log("use effect if getData")
     props.getData()
     }
-  }, [change]);
+  }, [change, props]);
   return (
     <div>
       <Button

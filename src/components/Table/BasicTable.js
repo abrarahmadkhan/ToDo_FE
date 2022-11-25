@@ -13,9 +13,13 @@ import EditButton from "../Button/EditButton";
 import DeleteButton from "../Button/DeleteButton";
 import jwt from "jwt-decode";
 import FilterSelect from "../Button/FilterButton";
+import { useCallback } from "react";
+// import { UserContext } from "../Context/Context";
 
 export default function BasicTable() {
   const [tableData, setTableData] = useState();
+  // const userDetails = React.useContext (UserContext);
+  // console.log("🚀 ~ file: SignIn.js ~ line 47 ~ SignIn ~ userDetails", userDetails)
   // const [employeeId, setEmployeeId] = useState();
   const isAuth = window.sessionStorage.AccessToken;
   const user = jwt(isAuth);
@@ -34,7 +38,7 @@ export default function BasicTable() {
   //   totalListNum
   // );
 
-  async function getData() {
+  const getData = useCallback( async () => {
     if (user.Position !== "Admin") {
       console.log("if Employee");
       const allData = await axios.post(
@@ -57,11 +61,11 @@ export default function BasicTable() {
       setTotalListNum(allData.data[1]);
       setTableData(allData.data[0]);
     }
-  }
+  }, [page, rowsPerPage, Stat, user.Position, user.userId])
 
   useEffect(() => {
     getData();
-  }, [page, rowsPerPage, Stat]);
+  }, [page, rowsPerPage, Stat, getData]);
   // console.log(tableData);
   if (tableData !== undefined) {
     console.log(tableData);
